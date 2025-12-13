@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Punto de Venta</title>
+    <link rel="stylesheet" href="stylemenu.css">
+</head>
+
+<body class="menu-layout">
+
+    <nav class="sidebar">
+        <button class="category-btn active" onclick="filtrarMenu('paquetes', this)">
+            <div class="icon-circle">🍱</div>
+            <div class="cat-name">Paquetes</div>
+        </button>
+        <button class="category-btn" onclick="filtrarMenu('comida', this)">
+            <div class="icon-circle">🍔</div>
+            <div class="cat-name">Comida</div>
+        </button>
+        <button class="category-btn" onclick="filtrarMenu('bebidas', this)">
+            <div class="icon-circle">🥤</div>
+            <div class="cat-name">Bebidas</div>
+        </button>
+        <button class="category-btn" onclick="filtrarMenu('postres', this)">
+            <div class="icon-circle">🍩</div>
+            <div class="cat-name">Postres</div>
+        </button>
+    </nav>
+
+    <div class="main-content">
+        
+        <header class="top-bar">
+            <div style="color: #008000; font-size: 30px; margin-right: 10px;">👤</div>
+            <div class="user-badge" id="nombreUsuario">VISITANTE</div>
+        </header>
+
+        <div class="products-grid" id="gridProductos">
+            </div>
+
+        <div class="cart-section">
+            
+            <div class="cart-scroll-area">
+                <div class="cart-title" id="cartTitle">CARRITO VACIO</div>
+                <div id="cartItems"></div>
+            </div>
+
+            <div class="pay-panel">
+                <div class="total-label">TOTAL:</div>
+                <div class="total-amount" id="txtTotal">$0.00</div>
+                <button class="btn-pay" onclick="realizarPago()">PAGAR</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        const db = [
+            { id: 1, cat: 'comida', name: 'HAMBURGUESA', price: 50 },
+            { id: 2, cat: 'comida', name: 'TACOS', price: 60 },
+            { id: 3, cat: 'comida', name: 'POZOLE', price: 45 },
+            { id: 4, cat: 'comida', name: 'ENCHILADAS', price: 55 },
+            { id: 5, cat: 'comida', name: 'QUESADILLAS', price: 30 },
+            { id: 6, cat: 'comida', name: 'TORTA', price: 40 },
+            { id: 7, cat: 'comida', name: 'SOPA', price: 25 },
+            { id: 8, cat: 'comida', name: 'ENSALADA', price: 35 },
+            
+            { id: 10, cat: 'paquetes', name: 'PAQUETE 1', price: 80 },
+            { id: 11, cat: 'paquetes', name: 'PAQUETE 2', price: 100 },
+            
+            { id: 20, cat: 'bebidas', name: 'REFRESCO', price: 20 },
+            { id: 21, cat: 'bebidas', name: 'AGUA', price: 15 },
+            
+            { id: 30, cat: 'postres', name: 'DONA', price: 15 },
+            { id: 31, cat: 'postres', name: 'HELADO', price: 20 },
+        ];
+
+        let carrito = [];
+
+        window.onload = () => {
+            const user = localStorage.getItem('usuarioActual');
+            if(user) document.getElementById('nombreUsuario').innerText = user;
+            filtrarMenu('comida', document.querySelectorAll('.category-btn')[1]);
+        };
+
+        function filtrarMenu(categoria, btn) {
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+
+            const grid = document.getElementById('gridProductos');
+            grid.innerHTML = '';
+
+            const items = db.filter(i => i.cat === categoria);
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="food-img"></div>
+                    <div class="food-title">${item.name}</div>
+                    <div class="controls">
+                        <button class="btn-pill">Cant</button>
+                        <span class="qty-number" id="qty-${item.id}">0</span>
+                        <button class="btn-pill" onclick="agregar(${item.id})">AGREGAR</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            // Restaurar contadores visuales si ya hay cosas en el carrito
+            actualizarContadoresVisuales();
+        }
+
+        function agregar(id) {
+            const item = db.find(i => i.id === id);
+            carrito.push({...item, uniqueId: Date.now()}); 
+            actualizarCarritoUI();
+            actualizarContadoresVisuales();
+        }
+
+        function eliminarItem(uniqueId) {
+            const index = carrito.findIndex(item => item.uniqueId === uniqueId);
+            if (index > -1) {
+                carrito.splice(index, 1);
+            }
+            actualizarCarritoUI();
+            actualizarContadoresVisuales();
+        }
+
+        function actualizarContadoresVisuales() {
+            // Reinicia visualmente todos a 0 primero (opcional, pero más seguro)
+            db.forEach(dbItem => {
+                const span = document.getElementById(`qty-${dbItem.id}`);
+                if(span) span.innerText = "0";
+            });
+
+            // Cuenta cuantos de cada ID hay en el carrito real
+            const conteo = {};
+            carrito.forEach(p => {
+                conteo[p.id] = (conteo[p.id] || 0) + 1;
+            });
+
+            // Actualiza el HTML
+            for (const [id, cantidad] of Object.entries(conteo)) {
+                const span = document.getElementById(`qty-${id}`);
+                if(span) span.innerText = cantidad;
+            }
+        }
+
+        function actualizarCarritoUI() {
+            const title = document.getElementById('cartTitle');
+            const container = document.getElementById('cartItems');
+            const txtTotal = document.getElementById('txtTotal');
+            
+            // 1. Calcular Total
+            const total = carrito.reduce((acc, item) => acc + item.price, 0);
+            txtTotal.innerText = `$${total}.00`;
+
+            // 2. Dibujar Elementos
+            if(carrito.length > 0) {
+                title.style.display = 'none'; 
+                container.innerHTML = '';
+                
+                carrito.forEach((p) => {
+                    const box = document.createElement('div');
+                    box.className = 'cart-item-box';
+                    box.innerHTML = `
+                        <div style="font-weight:bold; font-size:0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${p.name}</div>
+                        <div style="font-size:0.9rem;">$${p.price}</div>
+                        <button class="btn-delete" onclick="eliminarItem(${p.uniqueId})">X</button>
+                    `;
+                    container.appendChild(box);
+                });
+                container.scrollLeft = container.scrollWidth;
+            } else {
+                title.style.display = 'block';
+                container.innerHTML = '';
+            }
+        }
+
+        function realizarPago() {
+            if(carrito.length === 0) {
+                alert("El carrito está vacío.");
+                return;
+            }
+            const total = carrito.reduce((acc, item) => acc + item.price, 0);
+            alert(`¡Pedido realizado con éxito!\nTotal a pagar: $${total}.00`);
+            
+            // Limpiar carrito después de pagar
+            carrito = [];
+            actualizarCarritoUI();
+            actualizarContadoresVisuales();
+        }
+    </script>
+
+</body>
+</html>

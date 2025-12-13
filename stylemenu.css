@@ -1,0 +1,251 @@
+/* =========================================
+   1. CONFIGURACIÓN GENERAL
+   ========================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #e8f5e9; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* =========================================
+   2. ESTILOS DEL MENÚ (LAYOUT & COLORES)
+   ========================================= */
+
+body.menu-layout {
+    background-color: #e8f5e9; 
+    flex-direction: row;       
+    align-items: stretch;
+    padding: 0;     
+    overflow: hidden; /* BLINDAJE: Sin scroll en la página principal */
+    width: 100vw;
+    height: 100vh;
+}
+
+/* --- BARRA LATERAL --- */
+.sidebar {
+    width: 140px;
+    min-width: 140px; 
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+    border-right: 3px solid #008000;
+    height: 100%;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.category-btn {
+    background: none; border: none; cursor: pointer; margin-bottom: 30px;
+    text-align: center; width: 100%; opacity: 0.6; transition: all 0.3s;
+}
+.category-btn.active, .category-btn:hover { opacity: 1; transform: scale(1.1); }
+
+.icon-circle {
+    width: 60px; height: 60px;
+    border: 3px solid #008000;
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    font-size: 30px; margin: 0 auto 10px auto;
+    color: #008000;
+}
+.cat-name { font-weight: 800; color: #008000; font-size: 0.9rem; text-transform: capitalize; }
+
+/* --- CONTENIDO PRINCIPAL --- */
+.main-content {
+    flex: 1; 
+    display: flex; 
+    flex-direction: column;
+    height: 100%; 
+    position: relative;
+    overflow: hidden; 
+    min-width: 0; 
+}
+
+/* Barra Superior */
+.top-bar {
+    height: 80px; display: flex; justify-content: flex-end; align-items: center;
+    padding: 0 40px;
+    border-bottom: 3px solid #008000;
+    background-color: #ffffff;
+    flex-shrink: 0; 
+}
+
+.user-badge {
+    background-color: #fdd835; 
+    border: 2px solid #008000; 
+    border-radius: 30px;
+    padding: 10px 30px;
+    font-weight: 800; font-style: italic;
+    color: #000; text-transform: uppercase;
+    display: flex; align-items: center; gap: 10px;
+}
+
+/* Rejilla de Productos */
+.products-grid {
+    padding: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 40px;
+    overflow-y: auto; 
+    flex: 1; 
+}
+
+/* Tarjeta de Comida */
+.card {
+    display: flex; flex-direction: column; align-items: center;
+    background: transparent;
+}
+.food-img {
+    width: 100%; aspect-ratio: 1/1;
+    background-color: #fdd835; 
+    margin-bottom: 15px;
+    border: 2px solid #008000;
+    border-radius: 10px;
+}
+.food-title {
+    font-weight: 900; font-size: 1.2rem;
+    text-decoration: underline; margin-bottom: 15px;
+    color: #000; font-style: italic; text-transform: uppercase;
+}
+
+/* Controles */
+.controls { display: flex; align-items: center; gap: 10px; width: 100%; justify-content: center; }
+.btn-pill {
+    background-color: #fdd835; 
+    border: 2px solid #008000; 
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-weight: 700; font-size: 0.8rem;
+    color: #000; cursor: pointer; transition: 0.2s;
+}
+.btn-pill:hover { background-color: #008000; color: #fff; }
+.qty-number { font-size: 1.5rem; font-weight: 500; margin: 0 5px; }
+
+
+/* =========================================
+   3. SECCIÓN DEL CARRITO (CON PANEL DE PAGO)
+   ========================================= */
+
+.cart-section {
+    height: 150px;
+    border-top: 3px solid #008000;
+    background-color: #fff;
+    flex-shrink: 0; 
+    width: 100%;
+    
+    /* CAMBIO: Usamos Flex Row para dividir en dos áreas */
+    display: flex;
+    flex-direction: row; 
+}
+
+/* --- ÁREA IZQUIERDA: LISTA DE ITEMS (SCROLL) --- */
+.cart-scroll-area {
+    flex: 1; /* Ocupa todo el espacio sobrante */
+    display: flex;
+    align-items: center; /* Centra verticalmente los items */
+    overflow: hidden;    /* Contiene el scroll interno */
+    padding: 0 10px;
+    position: relative;
+    min-width: 0; /* Necesario para que Flexbox permita el scroll interno */
+}
+
+#cartItems {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    overflow-x: auto;       /* El scroll real */
+    padding: 10px 5px;
+    width: 100%;
+    
+    align-items: center;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.cart-title { 
+    position: absolute; 
+    left: 20px; 
+    font-weight: 800; 
+    font-size: 1.5rem; 
+    color: #ccc; 
+    text-transform: uppercase; 
+    pointer-events: none;
+}
+
+.cart-item-box {
+    border: 2px solid #008000;
+    border-radius: 10px;
+    padding: 8px;
+    min-width: 110px;       
+    max-width: 110px;       
+    text-align: center;
+    background-color: #fdd835;
+    flex-shrink: 0;         
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn-delete {
+    background-color: #ff5252; 
+    color: white; border: none; border-radius: 5px;
+    padding: 2px 8px; font-size: 0.7rem; cursor: pointer;
+    margin-top: 5px; font-weight: bold; width: 100%;
+}
+
+/* --- ÁREA DERECHA: PANEL DE PAGO --- */
+.pay-panel {
+    width: 180px; /* Ancho fijo para el panel de pago */
+    background-color: #008000; /* Fondo verde para destacar */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1); /* Sombra hacia la izquierda */
+}
+
+.total-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    color: #a5d6a7;
+}
+
+.total-amount {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.btn-pay {
+    background-color: #fdd835;
+    color: #008000;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 900;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: 0 4px 0 #f9a825;
+    transition: transform 0.1s;
+}
+
+.btn-pay:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
