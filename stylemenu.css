@@ -122,6 +122,8 @@ body.menu-layout {
 
 /* Controles */
 .controls { display: flex; align-items: center; gap: 10px; width: 100%; justify-content: center; }
+
+/* Botón interactivo (AGREGAR) */
 .btn-pill {
     background-color: #fdd835; 
     border: 2px solid #008000; 
@@ -131,6 +133,19 @@ body.menu-layout {
     color: #000; cursor: pointer; transition: 0.2s;
 }
 .btn-pill:hover { background-color: #008000; color: #fff; }
+
+/* Etiqueta estática para "Cant" */
+.static-label {
+    background-color: #fdd835; 
+    border: 2px solid #008000; 
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-weight: 700; font-size: 0.8rem;
+    color: #000;
+    cursor: default; 
+    user-select: none;
+}
+
 .qty-number { font-size: 1.5rem; font-weight: 500; margin: 0 5px; }
 
 
@@ -144,31 +159,28 @@ body.menu-layout {
     background-color: #fff;
     flex-shrink: 0; 
     width: 100%;
-    
-    /* CAMBIO: Usamos Flex Row para dividir en dos áreas */
     display: flex;
     flex-direction: row; 
 }
 
 /* --- ÁREA IZQUIERDA: LISTA DE ITEMS (SCROLL) --- */
 .cart-scroll-area {
-    flex: 1; /* Ocupa todo el espacio sobrante */
+    flex: 1; 
     display: flex;
-    align-items: center; /* Centra verticalmente los items */
-    overflow: hidden;    /* Contiene el scroll interno */
+    align-items: center; 
+    overflow: hidden;    
     padding: 0 10px;
     position: relative;
-    min-width: 0; /* Necesario para que Flexbox permita el scroll interno */
+    min-width: 0; 
 }
 
 #cartItems {
     display: flex;
     flex-direction: row;
     gap: 15px;
-    overflow-x: auto;       /* El scroll real */
+    overflow-x: auto;       
     padding: 10px 5px;
     width: 100%;
-    
     align-items: center;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
@@ -205,47 +217,136 @@ body.menu-layout {
 
 /* --- ÁREA DERECHA: PANEL DE PAGO --- */
 .pay-panel {
-    width: 180px; /* Ancho fijo para el panel de pago */
-    background-color: #008000; /* Fondo verde para destacar */
+    width: 180px; 
+    background-color: #008000; 
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 10px;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.1); /* Sombra hacia la izquierda */
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1); 
+    z-index: 5;
 }
 
 .total-label {
-    font-size: 0.9rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-    color: #a5d6a7;
+    font-size: 0.9rem; font-weight: bold; text-transform: uppercase;
+    margin-bottom: 5px; color: #a5d6a7;
 }
 
 .total-amount {
-    font-size: 1.8rem;
-    font-weight: 900;
-    color: #fff;
+    font-size: 1.8rem; font-weight: 900; color: #fff;
     margin-bottom: 10px;
 }
 
 .btn-pay {
-    background-color: #fdd835;
-    color: #008000;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: 900;
-    border-radius: 50px;
-    cursor: pointer;
-    width: 100%;
-    box-shadow: 0 4px 0 #f9a825;
-    transition: transform 0.1s;
+    background-color: #fdd835; color: #008000;
+    border: none; padding: 10px 20px;
+    font-size: 1rem; font-weight: 900;
+    border-radius: 50px; cursor: pointer; width: 100%;
+    box-shadow: 0 4px 0 #f9a825; transition: transform 0.1s;
 }
 
-.btn-pay:active {
-    transform: translateY(4px);
-    box-shadow: none;
+.btn-pay:active { transform: translateY(4px); box-shadow: none; }
+
+
+/* =========================================
+   4. ESTILOS DE LA VENTANA MODAL (TICKET)
+   ========================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none; /* Oculto por defecto */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.ticket-box {
+    background-color: white;
+    padding: 20px;
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-top: 10px solid #008000;
+    max-height: 90vh; /* Para que no se salga en pantallas chicas */
+    display: flex;
+    flex-direction: column;
+}
+
+#ticketContent {
+    flex: 1;
+    overflow-y: auto;
+    margin: 15px 0;
+    max-height: 300px;
+}
+
+.ticket-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 2px;
+}
+
+.ticket-total {
+    text-align: right;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #008000;
+    margin: 15px 0;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-confirm {
+    flex: 1; background-color: #008000; color: white;
+    padding: 10px; border: none; border-radius: 5px;
+    cursor: pointer; font-weight: bold;
+}
+
+.btn-cancel {
+    flex: 1; background-color: #ff5252; color: white;
+    padding: 10px; border: none; border-radius: 5px;
+    cursor: pointer; font-weight: bold;
+}
+
+/* =========================================
+   5. REGLAS PARA IMPRESIÓN (OCULTAR INTERFAZ)
+   ========================================= */
+@media print {
+    body * {
+        visibility: hidden; /* Oculta todo */
+    }
+    
+    #modalTicket, #modalTicket * {
+        visibility: visible; /* Muestra solo el ticket */
+    }
+
+    #modalTicket {
+        position: absolute;
+        left: 0; top: 0;
+        width: 100%; height: auto;
+        background-color: white;
+        z-index: 9999;
+    }
+
+    .ticket-box {
+        box-shadow: none;
+        border: 2px solid #000;
+        width: 100%;
+        max-width: 300px; /* Ancho típico de ticket */
+        margin: 0;
+    }
+    
+    /* Ocultamos los botones en el papel */
+    .modal-buttons {
+        display: none;
+    }
 }
