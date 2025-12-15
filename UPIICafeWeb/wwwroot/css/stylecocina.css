@@ -1,0 +1,198 @@
+/* =========================================
+   1. CONFIGURACIÓN GENERAL
+   ========================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #263238; /* Fondo oscuro */
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================
+   2. HEADER Y CONTROLES
+   ========================================= */
+.kitchen-header {
+    background-color: #008000;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.kitchen-header h1 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#clock {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: rgba(0,0,0,0.2);
+    padding: 5px 15px;
+    border-radius: 10px;
+}
+
+.btn-corte {
+    background-color: #fdd835;
+    color: #333;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.btn-corte:hover { background-color: #fbc02d; }
+
+
+/* =========================================
+   3. TARJETAS DE PEDIDOS
+   ========================================= */
+.orders-container {
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.empty-message {
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    color: #546e7a;
+    margin-top: 50px;
+    font-weight: bold;
+}
+
+.order-card {
+    background-color: #fff;
+    color: #333;
+    width: 300px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    animation: fadeIn 0.5s ease-in-out;
+    border-top: 8px solid #fdd835;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.order-header {
+    background-color: #eceff1;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-id {
+    font-size: 1.2rem;
+    color: #008000;
+}
+
+.order-time { color: #666; }
+
+.order-list {
+    list-style: none;
+    padding: 20px;
+    min-height: 100px;
+}
+
+.order-item {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 5px;
+    font-weight: 600;
+}
+
+.btn-pay-card {
+    width: 100%;
+    border: none;
+    padding: 15px;
+    background-color: #008000;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: auto; /* Empuja el botón al fondo si la lista es corta */
+}
+.btn-pay-card:hover { background-color: #006400; }
+
+
+/* =========================================
+   4. MODALES (VENTANAS EMERGENTES)
+   ========================================= */
+.modal-overlay {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: none;
+    justify-content: center; align-items: center;
+    z-index: 1000;
+}
+
+.modal-box {
+    background: #fff;
+    color: #333;
+    padding: 25px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.modal-title { color: #008000; margin-bottom: 15px; font-size: 1.5rem; }
+
+/* Estilos de Pago */
+.pay-info { font-size: 1.2rem; margin: 10px 0; font-weight: bold; }
+
+.input-money {
+    padding: 10px; font-size: 1.2rem; width: 100%;
+    margin: 10px 0; border: 2px solid #ccc; border-radius: 5px;
+    text-align: center;
+}
+
+.change-display {
+    font-size: 1.5rem; color: #d32f2f; margin: 15px 0;
+    font-weight: 900;
+}
+
+/* Tabla de Corte */
+.sales-table-container {
+    max-height: 300px; overflow-y: auto;
+    margin: 15px 0; border: 1px solid #eee;
+}
+.sales-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.sales-table th { background: #008000; color: white; padding: 8px; position: sticky; top: 0; }
+.sales-table td { border-bottom: 1px solid #ddd; padding: 8px; text-align: left; }
+.total-sales { font-size: 1.5rem; font-weight: bold; color: #008000; margin-top: 10px; }
+
+/* Botones de Acción Modal */
+.btn-confirm { background: #008000; color: white; padding: 12px; width: 100%; border: none; border-radius: 5px; font-size: 1rem; cursor: pointer; margin-top: 10px; }
+.btn-cancel { background: #d32f2f; color: white; padding: 12px; width: 100%; border: none; border-radius: 5px; font-size: 1rem; cursor: pointer; margin-top: 10px; }

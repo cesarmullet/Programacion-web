@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú Punto de Venta</title>
-    <link rel="stylesheet" href="stylemenu.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="menu-layout">
@@ -230,14 +230,30 @@
         }
 
         function confirmarCompra() {
-            // 1. Abrir diálogo de impresión
+            // 1. Guardar el pedido para la Cocina
+            const nuevoPedido = {
+                id: Date.now(), // Un ID único basado en la hora
+                hora: new Date().toLocaleTimeString(),
+                items: carrito,
+                total: carrito.reduce((acc, item) => acc + item.price, 0)
+            };
+
+            // Leer pedidos existentes, agregar el nuevo y guardar
+            let pedidosPendientes = JSON.parse(localStorage.getItem('pedidosCocina')) || [];
+            pedidosPendientes.push(nuevoPedido);
+            localStorage.setItem('pedidosCocina', JSON.stringify(pedidosPendientes));
+
+            // 2. Imprimir Ticket
             window.print();
 
-            // 2. Limpiar todo al terminar
+            // 3. Limpiar todo al terminar
             carrito = [];
             actualizarCarritoUI();
             actualizarContadoresVisuales();
             cerrarModal();
+            
+            // Opcional: Avisar que se envió
+            // alert("Pedido enviado a cocina");
         }
     </script>
 
