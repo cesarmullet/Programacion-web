@@ -10,22 +10,22 @@
 
 body {
     height: 100vh;
-    overflow: hidden; /* Evita scroll en la página principal */
+    overflow: hidden; 
     display: flex;
-    background-color: #f4f4f4;
+    background-color: #f0f2f5; /* Un gris muy suave de fondo */
 }
 
 /* =========================================
-   2. BARRA LATERAL (SIDEBAR)
+   2. BARRA LATERAL (VERDE UPIICSA)
    ========================================= */
 .sidebar {
-    width: 100px;
-    background-color: #333;
+    width: 110px; /* Un poco más ancha para que se vea mejor */
+    background-color: #004d40; /* <-- VERDE OSCURO (Estilo IPN) */
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    padding: 15px 10px;
     gap: 15px;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    box-shadow: 4px 0 10px rgba(0,0,0,0.15);
     z-index: 10;
 }
 
@@ -33,13 +33,13 @@ body {
     background: none;
     border: none;
     cursor: pointer;
-    color: #ccc;
+    color: rgba(255, 255, 255, 0.7); /* Texto blanco semitransparente */
     display: flex;
     flex-direction: column;
     align-items: center;
     transition: 0.3s;
-    padding: 10px 0;
-    border-radius: 10px;
+    padding: 12px 0;
+    border-radius: 12px;
 }
 
 .category-btn:hover {
@@ -47,32 +47,35 @@ body {
     color: white;
 }
 
+/* ESTADO ACTIVO (AMARILLO) */
 .category-btn.active {
-    background-color: #fdd835; /* Amarillo activo */
-    color: #333;
+    background-color: #fdd835; /* <-- AMARILLO INTENSO */
+    color: #004d40; /* Letras verdes para contraste */
     font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transform: scale(1.05);
 }
 
 .category-btn.active .icon-circle {
-    background-color: white;
-    transform: scale(1.1);
+    background-color: rgba(255,255,255,0.8);
+    color: #004d40;
 }
 
 .icon-circle {
-    width: 50px;
-    height: 50px;
-    background-color: #555;
+    width: 45px;
+    height: 45px;
+    background-color: rgba(0,0,0,0.2); /* Círculo oscuro sutil */
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
+    font-size: 22px;
     margin-bottom: 5px;
     transition: 0.3s;
 }
 
 .cat-name {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
 }
 
 /* =========================================
@@ -82,91 +85,117 @@ body {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    position: relative;
-    /* Divide el espacio: Grid Productos (70%) | Carrito (30%) */
+ position: relative;
     display: grid;
-    grid-template-columns: 1fr 350px; 
-    grid-template-rows: 60px 1fr;
+    grid-template-columns: 1fr 380px; /* Carrito un poco más ancho */
+    grid-template-rows: 70px 1fr;
 }
 
 /* BARRA SUPERIOR */
 .top-bar {
-    grid-column: 1 / -1; /* Ocupa todo el ancho */
+    grid-column: 1 / -1; 
     background-color: white;
     display: flex;
     align-items: center;
-    padding: 0 20px;
-    border-bottom: 1px solid #ddd;
-    justify-content: flex-end;
+    padding: 0 30px;
+    border-bottom: 1px solid #e0e0e0;
+    justify-content: space-between; /* Separar elementos */
+}
+
+/* Logo o Título en la barra superior */
+.brand-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #004d40; /* Verde */
+}
+.brand-title span {
+    color: #f9a825; /* Amarillo quemado */
 }
 
 .user-badge {
-    background-color: #eee;
-    padding: 5px 15px;
-    border-radius: 20px;
+    background-color: #e8f5e9; /* Verde muy clarito */
+    color: #004d40;
+    padding: 8px 20px;
+    border-radius: 30px;
     font-weight: bold;
-    color: #333;
+    border: 1px solid #c8e6c9;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 /* REJILLA DE PRODUCTOS */
 .products-grid {
     grid-column: 1 / 2;
-    padding: 20px;
+    padding: 25px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
     overflow-y: auto;
-    background-color: #f9f9f9;
+    background-color: #f0f2f5;
 }
 
 /* TARJETA DE PRODUCTO */
 .card {
     background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 15px; /* Bordes más redondeados */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     transition: 0.3s;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    height: 300px; /* Altura fija para uniformidad */
+    height: 340px; 
+    border: 1px solid #eee;
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    border-color: #fdd835; /* Borde amarillo al pasar mouse */
 }
 
-/* La imagen se maneja con style inline en HTML, pero aquí aseguramos el contenedor */
+
 .food-img {
     flex-shrink: 0; 
 }
 
 .food-title {
-    font-weight: bold;
-    margin: 10px 10px 0 10px;
-    color: #333;
-    font-size: 1rem;
+    font-weight: 800;
+    margin: 12px 15px 0 15px;
+    color: #2c3e50;
+    font-size: 1.1rem;
+}
+
+/* Descripción (Estilo base, se refuerza en HTML) */
+.food-desc {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    font-style: italic;
+    margin: 4px 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .food-price {
     font-weight: bold;
-    color: #008000;
-    font-size: 1.2rem;
-    margin: 5px 10px;
+    color: #004d40; /* Precio en verde */
+    font-size: 1.3rem;
+    margin: 5px 15px;
 }
 
 .controls {
-    margin-top: auto; /* Empuja el botón al fondo */
-    padding: 10px;
+    margin-top: auto; 
+    padding: 15px;
     text-align: center;
 }
 
 .btn-pill {
-    background-color: #008000;
-    color: white;
-    border: none;
-    padding: 8px 20px;
-    border-radius: 20px;
+    background-color: white;
+    color: #004d40;
+    border: 2px solid #004d40;
+    padding: 10px 20px;
+    border-radius: 25px;
     cursor: pointer;
     font-weight: bold;
     transition: 0.2s;
@@ -174,18 +203,8 @@ body {
 }
 
 .btn-pill:hover {
-    background-color: #006400;
-}
-
-/* ESTILO DE LA DESCRIPCIÓN (Aunque esté en HTML, es bueno tenerlo aquí también) */
-.food-desc {
-    font-size: 0.85rem;
-    color: #777;
-    font-style: italic;
-    margin: 0 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    background-color: #004d40;
+    color: white;
 }
 
 /* =========================================
@@ -197,65 +216,88 @@ body {
     border-left: 1px solid #ddd;
     display: flex;
     flex-direction: column;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.05);
+    z-index: 5;
 }
 
 .cart-scroll-area {
     flex-grow: 1;
     overflow-y: auto;
-    padding: 10px;
+    padding: 20px;
 }
 
 .cart-title {
     text-align: center;
-    color: #ccc;
+    color: #bdc3c7;
     font-weight: bold;
-    margin-top: 50px;
-    font-size: 1.5rem;
+    margin-top: 60px;
+    font-size: 1.2rem;
 }
 
 .cart-item-box {
-    background-color: #f9f9f9;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    background-color: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #eee;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    transition: 0.2s;
 }
 
+.cart-item-box:hover {
+    border-left: 4px solid #fdd835; /* Detalle amarillo al pasar mouse */
+}
+
+/* PANEL DE PAGO (VERDE Y AMARILLO) */
 .pay-panel {
-    background-color: #333;
+    background-color: #004d40; /* Verde Fondo */
     color: white;
-    padding: 20px;
+    padding: 25px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
 }
 
 .total-label {
     font-size: 0.9rem;
-    color: #ccc;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .total-amount {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #fdd835;
-    margin-bottom: 10px;
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #fdd835; /* Precio Amarillo */
+    margin-bottom: 15px;
 }
 
 .btn-pay {
     width: 100%;
-    background-color: #fdd835;
-    color: #333;
+    background-color: #fdd835; /* Botón Amarillo */
+    color: #004d40; /* Texto Verde */
     border: none;
-    padding: 15px;
-    font-weight: bold;
+    padding: 16px;
+    font-weight: 900;
     font-size: 1.2rem;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 12px;
+    transition: 0.3s;
+    text-transform: uppercase;
+    box-shadow: 0 4px 0 #f9a825; /* Efecto 3D sutil */
 }
 
 .btn-pay:hover {
-    background-color: #fff;
+    background-color: #fff59d;
+    transform: translateY(-2px);
+}
+
+.btn-pay:active {
+    transform: translateY(2px);
+    box-shadow: none;
 }
 
 /* =========================================
@@ -265,56 +307,74 @@ body {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,40,20,0.7); /* Fondo verde muy oscuro semitransparente */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 100;
+    backdrop-filter: blur(3px);
 }
 
 .ticket-box {
     background: white;
-    width: 350px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 380px;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    border-top: 10px solid #fdd835; /* Borde superior amarillo */
 }
 
 .ticket-row {
-    padding: 5px 0;
+    padding: 8px 0;
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
+    color: #333;
+    border-bottom: 1px dashed #eee;
 }
 
 .ticket-total {
     text-align: right;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: bold;
-    margin: 15px 0;
+    margin: 20px 0;
+    color: #004d40;
 }
 
 .modal-buttons {
     display: flex;
-    gap: 10px;
+    gap: 15px;
 }
 
 .btn-cancel {
     flex: 1;
-    background-color: #d32f2f;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
+    background-color: #ffebee;
+    color: #c62828;
+    border: 2px solid #ffcdd2;
+    padding: 12px;
+    border-radius: 10px;
     cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn-cancel:hover {
+    background-color: #ffcdd2;
 }
 
 .btn-confirm {
     flex: 2;
-    background-color: #008000;
+    background-color: #004d40;
     color: white;
     border: none;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 12px;
+    border-radius: 10px;
     cursor: pointer;
     font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,77,64,0.3);
+    transition: 0.2s;
+}
+
+.btn-confirm:hover {
+    background-color: #00695c;
+    transform: scale(1.02);
 }

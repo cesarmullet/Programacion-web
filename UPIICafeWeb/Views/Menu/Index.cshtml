@@ -8,28 +8,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú Punto de Venta</title>
-    <link rel="stylesheet" href="~/css/stylemenu.css?v=4">
+    <title>Menú UPIICAFE</title>
+    <link rel="stylesheet" href="~/css/stylemenu.css?v=5">
     
     <style>
         .food-img {
             width: 100%;
-            height: 120px;
+            height: 140px; /* Un poco más alto para lucir la comida */
             background-position: center;
             background-size: cover;
             border-radius: 5px 5px 0 0;
-            background-color: #eee;
+            background-color: #f0f0f0;
         }
 
-        /* --- NUEVO ESTILO PARA LA DESCRIPCIÓN --- */
+        /* La clase food-desc ya está estilizada en el CSS también, 
+           pero mantenemos esto por si acaso */
         .food-desc {
             font-size: 0.85rem;
             color: #777;
             font-style: italic;
             margin: 5px 0;
-            padding: 0 10px;
-            
-            /* Esto corta el texto si es muy largo para no deformar la tarjeta */
+            padding: 0 15px; /* Padding lateral alineado */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis; 
@@ -40,6 +39,10 @@
 <body class="menu-layout">
 
     <nav class="sidebar">
+        <div style="text-align:center; color:white; font-weight:bold; margin-bottom:10px; font-size:1.2rem;">
+            IPN
+        </div>
+
         <button class="category-btn active" onclick="filtrarMenu('comida', this)">
             <div class="icon-circle">🍔</div>
             <div class="cat-name">Comida</div>
@@ -57,16 +60,23 @@
             <div class="cat-name">Postres</div>
         </button>
         
-        <div style="margin-top: auto; padding: 10px;">
-            <a href="/Acceso/Salir" style="color: white; text-decoration: none; display: block; text-align: center; background: #d32f2f; padding: 10px; border-radius: 10px;">Salir 🚪</a>
+        <div style="margin-top: auto; width: 100%;">
+            <a href="/Acceso/Salir" style="color: white; text-decoration: none; display: flex; flex-direction: column; align-items: center; background: rgba(255,0,0,0.2); padding: 10px; border-radius: 10px; transition: 0.3s;" onmouseover="this.style.background='rgba(255,0,0,0.4)'" onmouseout="this.style.background='rgba(255,0,0,0.2)'">
+                <span style="font-size: 1.5rem;">🚪</span>
+                <span style="font-size: 0.8rem; margin-top:5px;">Salir</span>
+            </a>
         </div>
     </nav>
 
     <div class="main-content">
         
         <header class="top-bar">
-            <div style="color: #008000; font-size: 30px; margin-right: 10px;">👤</div>
-            <div class="user-badge" id="nombreUsuario">HOLA, @Context.Session.GetInt32("RolUsuario")</div>
+            <div class="brand-title">UPII<span>CAFE</span></div>
+
+            <div class="user-badge" id="nombreUsuario">
+                <span style="font-size: 1.2rem;">👤</span>
+                ROL: @Context.Session.GetInt32("RolUsuario")
+            </div>
         </header>
 
         <div class="products-grid" id="gridProductos">
@@ -74,14 +84,17 @@
 
         <div class="cart-section">
             <div class="cart-scroll-area">
-                <div class="cart-title" id="cartTitle">CARRITO VACIO</div>
+                <div class="cart-title" id="cartTitle">
+                    <div>🛒</div>
+                    Tu carrito está vacío
+                </div>
                 <div id="cartItems"></div>
             </div>
 
             <div class="pay-panel">
-                <div class="total-label">TOTAL:</div>
+                <div class="total-label">Total a Pagar</div>
                 <div class="total-amount" id="txtTotal">$0.00</div>
-                <button class="btn-pay" onclick="abrirModalPago()">PAGAR</button>
+                <button class="btn-pay" onclick="abrirModalPago()">PAGAR AHORA ➔</button>
             </div>
         </div>
 
@@ -89,20 +102,21 @@
 
     <div id="modalTicket" class="modal-overlay" style="display:none;">
         <div class="ticket-box">
-            <h2 style="text-align: center; color: #008000; margin-bottom: 10px;">RESUMEN DE PEDIDO</h2>
-            <div style="text-align: center; font-size: 0.8rem; margin-bottom: 10px;">Ticket de Venta</div>
+            <h2 style="text-align: center; color: #004d40; margin-bottom: 5px;">CONFIRMAR PEDIDO</h2>
+            <div style="text-align: center; font-size: 0.8rem; color:#777; margin-bottom: 15px;">UPIICAFE - Punto de Venta</div>
             <hr style="border: 1px dashed #ccc;">
             
             <div id="ticketContent"></div>
             
             <hr style="border: 1px dashed #ccc;">
             <div class="ticket-total">
-                TOTAL: <span id="ticketTotalDisplay">$0.00</span>
+                <span style="font-size:1rem; color:#777; font-weight:normal;">Total:</span> 
+                <span id="ticketTotalDisplay">$0.00</span>
             </div>
 
             <div class="modal-buttons">
                 <button class="btn-cancel" onclick="cerrarModal()">CANCELAR</button>
-                <button class="btn-confirm" onclick="confirmarCompra()">CONFIRMAR E IMPRIMIR</button>
+                <button class="btn-confirm" onclick="confirmarCompra()">✅ CONFIRMAR</button>
             </div>
         </div>
     </div>
@@ -110,9 +124,7 @@
     <script>
         // --- 1. CONEXIÓN BASE DE DATOS SQL -> JAVASCRIPT ---
         const db = [
-            @foreach(var item in Model)
-            {
-                // Mapeo de Categorías
+            @foreach(var item in Model) {
                 string catTexto = "otros";
                 if(item.IdCategoria == 1) catTexto = "comida";
                 if(item.IdCategoria == 2) catTexto = "paquetes";
@@ -148,24 +160,21 @@
             const items = db.filter(i => i.cat === categoria);
 
             if(items.length === 0) {
-                grid.innerHTML = '<p style="padding:20px; color:#666;">No hay productos en esta categoría.</p>';
+                grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:50px; color:#888;"><h3>🍽️</h3><p>No hay productos disponibles en esta categoría.</p></div>';
                 return;
             }
 
             items.forEach(item => {
                 const card = document.createElement('div');
-                card.className = 'card';
-                // Renderizado de la tarjeta con la descripción nueva
+             card.className = 'card';
                 card.innerHTML = `
-                    <div class="food-img" style="background-image: url('/imagenes/${item.img}');"></div>
+                <div class="food-img" style="background-image: url('/imagenes/${item.img}');"></div>
                     
-                    <div class="food-title">${item.name}</div>
-                    
-                    <div class="food-desc">${item.desc}</div>
-                    
-                    <div class="food-price">$${item.price}</div>
+                <div class="food-title">${item.name}</div>
+                <div class="food-desc">${item.desc}</div>
+                <div class="food-price">$${item.price}</div>
                     <div class="controls">
-                        <button class="btn-pill" onclick="agregar(${item.id})">AGREGAR</button>
+                        <button class="btn-pill" onclick="agregar(${item.id})">AGREGAR +</button>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -202,9 +211,9 @@
                     const box = document.createElement('div');
                     box.className = 'cart-item-box';
                     box.innerHTML = `
-                        <div style="flex:1; overflow:hidden; text-overflow:ellipsis;">${p.name}</div>
-                        <div style="font-weight:bold;">$${p.price}</div>
-                        <button class="btn-delete" style="margin-left:5px; color:red; font-weight:bold; border:none; background:none; cursor:pointer;" onclick="eliminarItem(${p.uniqueId})">X</button>
+                        <div style="flex:1; overflow:hidden; text-overflow:ellipsis; font-weight:500;">${p.name}</div>
+                        <div style="font-weight:bold; color:#004d40;">$${p.price}</div>
+                        <button class="btn-delete" style="margin-left:10px; color:#e53935; font-weight:bold; border:none; background:none; cursor:pointer; font-size:1.1rem;" onclick="eliminarItem(${p.uniqueId})">×</button>
                     `;
                     container.appendChild(box);
                 });
@@ -213,13 +222,10 @@
                 title.style.display = 'block';
                 container.innerHTML = '';
             }
-        }
-
-        // --- FUNCIONES DEL TICKET Y PAGO ---
-
+    }
         function abrirModalPago() {
             if(carrito.length === 0) {
-                alert("El carrito está vacío.");
+                alert("El carrito está vacío. Agrega productos primero.");
                 return;
             }
 
@@ -252,11 +258,7 @@
         }
 
         function confirmarCompra() {
-            // 1. Imprimir Ticket
-            window.print();
-            
-            // 2. ENVIAR A COCINA (LocalStorage)
-            // Esto guarda el pedido para que aparezca en la pantalla del Chef
+            window.print(); 
             const pedidosExistentes = JSON.parse(localStorage.getItem('pedidosCocina')) || [];
             
             const nuevoPedido = {
@@ -267,9 +269,7 @@
             };
 
             pedidosExistentes.push(nuevoPedido);
-            localStorage.setItem('pedidosCocina', JSON.stringify(pedidosExistentes));
-
-            // 3. Limpiar y Cerrar
+        localStorage.setItem('pedidosCocina', JSON.stringify(pedidosExistentes));
             carrito = [];
             actualizarCarritoUI();
             cerrarModal();
