@@ -196,3 +196,25 @@ body {
 /* Botones de Acción Modal */
 .btn-confirm { background: #008000; color: white; padding: 12px; width: 100%; border: none; border-radius: 5px; font-size: 1rem; cursor: pointer; margin-top: 10px; }
 .btn-cancel { background: #d32f2f; color: white; padding: 12px; width: 100%; border: none; border-radius: 5px; font-size: 1rem; cursor: pointer; margin-top: 10px; }
+/* --- PEGAR AL FINAL DE stylecocina.css --- */
+
+/* --- BOTÓN SALIR (Amarillo y Negro) --- */
+.btn-salir {
+    background-color: #fdd835; /* Amarillo */
+    color: #000;               /* Negro */
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 800;          /* Letra gruesa */
+    font-size: 0.9rem;
+    display: inline-block;
+    transition: 0.3s;
+    border: 2px solid #fdd835;
+    cursor: pointer;
+}
+
+.btn-salir:hover {
+    background-color: #fff;    /* Blanco al pasar el mouse */
+    border-color: #fff;
+    color: #000;
+}

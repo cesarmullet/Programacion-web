@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 using System.Data;
-using UPIICafeWeb.Models; // Importamos el modelo que acabamos de crear
+using UPIICafeWeb.Models; 
+using Microsoft.Extensions.Configuration; 
 
 namespace UPIICafeWeb.Controllers
 {
@@ -14,20 +15,21 @@ namespace UPIICafeWeb.Controllers
             cadenaSQL = config.GetConnectionString("CadenaSQL");
         }
 
+        // ==========================================
+        // 1. VISTA MENÚ GENERAL (Index)
+        // ==========================================
         public IActionResult Index()
         {
             // 1. SEGURIDAD: Verificar si el usuario inició sesión
-            // Si la sesión está vacía, lo regresamos al Login
             int? idRol = HttpContext.Session.GetInt32("RolUsuario");
-            if (idRol == null) return RedirectToAction("Index", "Acceso"); // O redirigir a Login
+            if (idRol == null) return RedirectToAction("Index", "Acceso");
 
             List<ProductoModel> lista = new List<ProductoModel>();
 
             using (SqlConnection cn = new SqlConnection(cadenaSQL))
             {
-                // 2. CONSULTA INTELIGENTE
-                // Traemos el producto y cruzamos (LEFT JOIN) con la tabla Descuento
-                // para ver si ESTE rol tiene descuento en ESTE producto.
+                // 2. CONSULTA SQL
+                // Nota: Agregamos 'p.descrip' para mostrar la descripción en la tarjeta
                 string query = @"
                     SELECT 
                         p.id_prod, 
@@ -35,6 +37,7 @@ namespace UPIICafeWeb.Controllers
                         p.descrip, 
                         p.precio, 
                         p.img_url,
+                        p.id_categoria,  
                         ISNULL(d.porc_desc, 0) AS descuento_aplicable
                     FROM Productos p
                     LEFT JOIN Descuento d ON p.id_prod = d.id_prod AND d.id_rol = @idRol";
@@ -51,16 +54,38 @@ namespace UPIICafeWeb.Controllers
                     {
                         Id = Convert.ToInt32(reader["id_prod"]),
                         Nombre = reader["nom_prod"].ToString(),
+                        
+                        // AQUÍ CAPTURAMOS LA DESCRIPCIÓN
                         Descripcion = reader["descrip"].ToString(),
+
                         PrecioOriginal = Convert.ToDecimal(reader["precio"]),
                         ImagenUrl = reader["img_url"].ToString(),
+                        IdCategoria = Convert.ToInt32(reader["id_categoria"]),
                         Descuento = Convert.ToDecimal(reader["descuento_aplicable"])
                     });
                 }
             }
 
-            // Enviamos la lista llena a la Vista
             return View(lista);
         }
-    }
+
+        // ==========================================
+        // 2. VISTA DE COCINA (SOLO TRABAJADORES - ROL 5)
+        // ==========================================
+        public IActionResult Cocina()
+        {
+            // 1. Verificamos si hay sesión
+            int? idRol = HttpContext.Session.GetInt32("RolUsuario");
+
+            // 2. SEGURIDAD ESTRICTA:
+            // Si no hay sesión O el rol no es 5 (Trabajador), lo sacamos
+            if (idRol == null || idRol != 5) 
+            {
+                return RedirectToAction("Index", "Acceso");
+            }
+
+            return View();
+        }
+
+    } // Fin de la clase
 }

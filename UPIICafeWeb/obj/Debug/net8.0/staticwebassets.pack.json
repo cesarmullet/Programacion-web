@@ -29,6 +29,10 @@
       "PackagePath": "staticwebassets\\imagenes\\hamburguesa.PNG"
     },
     {
+      "Id": "C:\\Users\\cesar\\OneDrive\\Escritorio\\Proyecto-web\\UPIICafeWeb\\wwwroot\\imagenes\\refresco.PNG",
+      "PackagePath": "staticwebassets\\imagenes\\refresco.PNG"
+    },
+    {
       "Id": "C:\\Users\\cesar\\OneDrive\\Escritorio\\Proyecto-web\\UPIICafeWeb\\wwwroot\\imagenes\\tacos.PNG",
       "PackagePath": "staticwebassets\\imagenes\\tacos.PNG"
     },

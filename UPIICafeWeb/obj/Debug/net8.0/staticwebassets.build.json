@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "X+1nIr3dIM/pbrA5iWko2nVFM+SJfhSkNda7q+xrJbw=",
+  "Hash": "Rrf3XmSEMGB0Ey5/4YPvboQkbm98O+0V4ZLht7lHq28=",
   "Source": "UPIICafeWeb",
   "BasePath": "_content/UPIICafeWeb",
   "Mode": "Default",
@@ -167,6 +167,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\imagenes\\hamburguesa.PNG"
+    },
+    {
+      "Identity": "C:\\Users\\cesar\\OneDrive\\Escritorio\\Proyecto-web\\UPIICafeWeb\\wwwroot\\imagenes\\refresco.PNG",
+      "SourceId": "UPIICafeWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\cesar\\OneDrive\\Escritorio\\Proyecto-web\\UPIICafeWeb\\wwwroot\\",
+      "BasePath": "_content/UPIICafeWeb",
+      "RelativePath": "imagenes/refresco.PNG",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\imagenes\\refresco.PNG"
     },
     {
       "Identity": "C:\\Users\\cesar\\OneDrive\\Escritorio\\Proyecto-web\\UPIICafeWeb\\wwwroot\\imagenes\\tacos.PNG",

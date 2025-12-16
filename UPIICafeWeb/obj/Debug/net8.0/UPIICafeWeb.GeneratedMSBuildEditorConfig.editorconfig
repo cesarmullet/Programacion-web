@@ -22,12 +22,28 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjZXNvXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/cesar/OneDrive/Escritorio/Proyecto-web/UPIICafeWeb/Views/Acceso/LoginTrabajador.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjZXNvXExvZ2luVHJhYmFqYWRvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cesar/OneDrive/Escritorio/Proyecto-web/UPIICafeWeb/Views/Acceso/Registro.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjZXNvXFJlZ2lzdHJvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/cesar/OneDrive/Escritorio/Proyecto-web/UPIICafeWeb/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/cesar/OneDrive/Escritorio/Proyecto-web/UPIICafeWeb/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cesar/OneDrive/Escritorio/Proyecto-web/UPIICafeWeb/Views/Menu/Cocina.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudVxDb2NpbmEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cesar/OneDrive/Escritorio/Proyecto-web/UPIICafeWeb/Views/Menu/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/cesar/OneDrive/Escritorio/Proyecto-web/UPIICafeWeb/Views/Shared/Error.cshtml]

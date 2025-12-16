@@ -9,294 +9,287 @@
 }
 
 body {
-    background-color: #e8f5e9; 
+    height: 100vh;
+    overflow: hidden; /* Evita scroll en la página principal */
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
+    background-color: #f4f4f4;
 }
 
 /* =========================================
-   2. ESTILOS DEL MENÚ (LAYOUT & COLORES)
+   2. BARRA LATERAL (SIDEBAR)
    ========================================= */
-
-body.menu-layout {
-    background-color: #e8f5e9; 
-    flex-direction: row;       
-    align-items: stretch;
-    padding: 0;     
-    overflow: hidden; /* BLINDAJE: Sin scroll en la página principal */
-    width: 100vw;
-    height: 100vh;
-}
-
-/* --- BARRA LATERAL --- */
 .sidebar {
-    width: 140px;
-    min-width: 140px; 
-    background-color: #ffffff;
+    width: 100px;
+    background-color: #333;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding-top: 30px;
-    border-right: 3px solid #008000;
-    height: 100%;
-    overflow-y: auto;
+    padding: 10px;
+    gap: 15px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
     z-index: 10;
 }
 
 .category-btn {
-    background: none; border: none; cursor: pointer; margin-bottom: 30px;
-    text-align: center; width: 100%; opacity: 0.6; transition: all 0.3s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: 0.3s;
+    padding: 10px 0;
+    border-radius: 10px;
 }
-.category-btn.active, .category-btn:hover { opacity: 1; transform: scale(1.1); }
+
+.category-btn:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+.category-btn.active {
+    background-color: #fdd835; /* Amarillo activo */
+    color: #333;
+    font-weight: bold;
+}
+
+.category-btn.active .icon-circle {
+    background-color: white;
+    transform: scale(1.1);
+}
 
 .icon-circle {
-    width: 60px; height: 60px;
-    border: 3px solid #008000;
+    width: 50px;
+    height: 50px;
+    background-color: #555;
     border-radius: 50%;
-    display: flex; justify-content: center; align-items: center;
-    font-size: 30px; margin: 0 auto 10px auto;
-    color: #008000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    margin-bottom: 5px;
+    transition: 0.3s;
 }
-.cat-name { font-weight: 800; color: #008000; font-size: 0.9rem; text-transform: capitalize; }
 
-/* --- CONTENIDO PRINCIPAL --- */
+.cat-name {
+    font-size: 0.8rem;
+}
+
+/* =========================================
+   3. CONTENIDO PRINCIPAL
+   ========================================= */
 .main-content {
-    flex: 1; 
-    display: flex; 
+    flex-grow: 1;
+    display: flex;
     flex-direction: column;
-    height: 100%; 
     position: relative;
-    overflow: hidden; 
-    min-width: 0; 
+    /* Divide el espacio: Grid Productos (70%) | Carrito (30%) */
+    display: grid;
+    grid-template-columns: 1fr 350px; 
+    grid-template-rows: 60px 1fr;
 }
 
-/* Barra Superior */
+/* BARRA SUPERIOR */
 .top-bar {
-    height: 80px; display: flex; justify-content: flex-end; align-items: center;
-    padding: 0 40px;
-    border-bottom: 3px solid #008000;
-    background-color: #ffffff;
-    flex-shrink: 0; 
+    grid-column: 1 / -1; /* Ocupa todo el ancho */
+    background-color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid #ddd;
+    justify-content: flex-end;
 }
 
 .user-badge {
-    background-color: #fdd835; 
-    border: 2px solid #008000; 
-    border-radius: 30px;
-    padding: 10px 30px;
-    font-weight: 800; font-style: italic;
-    color: #000; text-transform: uppercase;
-    display: flex; align-items: center; gap: 10px;
+    background-color: #eee;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    color: #333;
 }
 
-/* Rejilla de Productos */
+/* REJILLA DE PRODUCTOS */
 .products-grid {
-    padding: 40px;
+    grid-column: 1 / 2;
+    padding: 20px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-    gap: 40px;
-    overflow-y: auto; 
-    flex: 1; 
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
 }
 
-/* Tarjeta de Comida */
+/* TARJETA DE PRODUCTO */
 .card {
-    display: flex; flex-direction: column; align-items: center;
-    background: transparent;
-}
-.food-img {
-    width: 100%; aspect-ratio: 1/1;
-    background-color: #fdd835; 
-    margin-bottom: 15px;
-    border: 2px solid #008000;
+    background: white;
     border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 300px; /* Altura fija para uniformidad */
 }
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* La imagen se maneja con style inline en HTML, pero aquí aseguramos el contenedor */
+.food-img {
+    flex-shrink: 0; 
+}
+
 .food-title {
-    font-weight: 900; font-size: 1.2rem;
-    text-decoration: underline; margin-bottom: 15px;
-    color: #000; font-style: italic; text-transform: uppercase;
+    font-weight: bold;
+    margin: 10px 10px 0 10px;
+    color: #333;
+    font-size: 1rem;
 }
 
-/* Controles */
-.controls { display: flex; align-items: center; gap: 10px; width: 100%; justify-content: center; }
+.food-price {
+    font-weight: bold;
+    color: #008000;
+    font-size: 1.2rem;
+    margin: 5px 10px;
+}
 
-/* Botón interactivo (AGREGAR) */
+.controls {
+    margin-top: auto; /* Empuja el botón al fondo */
+    padding: 10px;
+    text-align: center;
+}
+
 .btn-pill {
-    background-color: #fdd835; 
-    border: 2px solid #008000; 
+    background-color: #008000;
+    color: white;
+    border: none;
+    padding: 8px 20px;
     border-radius: 20px;
-    padding: 5px 15px;
-    font-weight: 700; font-size: 0.8rem;
-    color: #000; cursor: pointer; transition: 0.2s;
-}
-.btn-pill:hover { background-color: #008000; color: #fff; }
-
-/* Etiqueta estática para "Cant" */
-.static-label {
-    background-color: #fdd835; 
-    border: 2px solid #008000; 
-    border-radius: 20px;
-    padding: 5px 15px;
-    font-weight: 700; font-size: 0.8rem;
-    color: #000;
-    cursor: default; 
-    user-select: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+    width: 100%;
 }
 
-.qty-number { font-size: 1.5rem; font-weight: 500; margin: 0 5px; }
+.btn-pill:hover {
+    background-color: #006400;
+}
 
+/* ESTILO DE LA DESCRIPCIÓN (Aunque esté en HTML, es bueno tenerlo aquí también) */
+.food-desc {
+    font-size: 0.85rem;
+    color: #777;
+    font-style: italic;
+    margin: 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 /* =========================================
-   3. SECCIÓN DEL CARRITO (CON PANEL DE PAGO)
+   4. SECCIÓN DEL CARRITO (DERECHA)
    ========================================= */
-
 .cart-section {
-    height: 150px;
-    border-top: 3px solid #008000;
-    background-color: #fff;
-    flex-shrink: 0; 
-    width: 100%;
+    grid-column: 2 / 3;
+    background-color: white;
+    border-left: 1px solid #ddd;
     display: flex;
-    flex-direction: row; 
+    flex-direction: column;
 }
 
-/* --- ÁREA IZQUIERDA: LISTA DE ITEMS (SCROLL) --- */
 .cart-scroll-area {
-    flex: 1; 
-    display: flex;
-    align-items: center; 
-    overflow: hidden;    
-    padding: 0 10px;
-    position: relative;
-    min-width: 0; 
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
 }
 
-#cartItems {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-    overflow-x: auto;       
-    padding: 10px 5px;
-    width: 100%;
-    align-items: center;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-}
-
-.cart-title { 
-    position: absolute; 
-    left: 20px; 
-    font-weight: 800; 
-    font-size: 1.5rem; 
-    color: #ccc; 
-    text-transform: uppercase; 
-    pointer-events: none;
+.cart-title {
+    text-align: center;
+    color: #ccc;
+    font-weight: bold;
+    margin-top: 50px;
+    font-size: 1.5rem;
 }
 
 .cart-item-box {
-    border: 2px solid #008000;
-    border-radius: 10px;
-    padding: 8px;
-    min-width: 110px;       
-    max-width: 110px;       
-    text-align: center;
-    background-color: #fdd835;
-    flex-shrink: 0;         
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-.btn-delete {
-    background-color: #ff5252; 
-    color: white; border: none; border-radius: 5px;
-    padding: 2px 8px; font-size: 0.7rem; cursor: pointer;
-    margin-top: 5px; font-weight: bold; width: 100%;
-}
-
-/* --- ÁREA DERECHA: PANEL DE PAGO --- */
-.pay-panel {
-    width: 180px; 
-    background-color: #008000; 
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    background-color: #f9f9f9;
     padding: 10px;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.1); 
-    z-index: 5;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #eee;
+}
+
+.pay-panel {
+    background-color: #333;
+    color: white;
+    padding: 20px;
 }
 
 .total-label {
-    font-size: 0.9rem; font-weight: bold; text-transform: uppercase;
-    margin-bottom: 5px; color: #a5d6a7;
+    font-size: 0.9rem;
+    color: #ccc;
 }
 
 .total-amount {
-    font-size: 1.8rem; font-weight: 900; color: #fff;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fdd835;
     margin-bottom: 10px;
 }
 
 .btn-pay {
-    background-color: #fdd835; color: #008000;
-    border: none; padding: 10px 20px;
-    font-size: 1rem; font-weight: 900;
-    border-radius: 50px; cursor: pointer; width: 100%;
-    box-shadow: 0 4px 0 #f9a825; transition: transform 0.1s;
+    width: 100%;
+    background-color: #fdd835;
+    color: #333;
+    border: none;
+    padding: 15px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
-.btn-pay:active { transform: translateY(4px); box-shadow: none; }
-
+.btn-pay:hover {
+    background-color: #fff;
+}
 
 /* =========================================
-   4. ESTILOS DE LA VENTANA MODAL (TICKET)
+   5. MODALES (TICKET)
    ========================================= */
 .modal-overlay {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: none; /* Oculto por defecto */
+    background: rgba(0,0,0,0.6);
+    display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 100;
 }
 
 .ticket-box {
-    background-color: white;
-    padding: 20px;
+    background: white;
     width: 350px;
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    border-top: 10px solid #008000;
-    max-height: 90vh; /* Para que no se salga en pantallas chicas */
-    display: flex;
-    flex-direction: column;
-}
-
-#ticketContent {
-    flex: 1;
-    overflow-y: auto;
-    margin: 15px 0;
-    max-height: 300px;
 }
 
 .ticket-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-    font-size: 0.9rem;
-    border-bottom: 1px dashed #eee;
-    padding-bottom: 2px;
+    padding: 5px 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
 }
 
 .ticket-total {
     text-align: right;
     font-size: 1.5rem;
-    font-weight: 900;
-    color: #008000;
+    font-weight: bold;
     margin: 15px 0;
 }
 
@@ -305,48 +298,23 @@ body.menu-layout {
     gap: 10px;
 }
 
-.btn-confirm {
-    flex: 1; background-color: #008000; color: white;
-    padding: 10px; border: none; border-radius: 5px;
-    cursor: pointer; font-weight: bold;
-}
-
 .btn-cancel {
-    flex: 1; background-color: #ff5252; color: white;
-    padding: 10px; border: none; border-radius: 5px;
-    cursor: pointer; font-weight: bold;
+    flex: 1;
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-/* =========================================
-   5. REGLAS PARA IMPRESIÓN (OCULTAR INTERFAZ)
-   ========================================= */
-@media print {
-    body * {
-        visibility: hidden; /* Oculta todo */
-    }
-    
-    #modalTicket, #modalTicket * {
-        visibility: visible; /* Muestra solo el ticket */
-    }
-
-    #modalTicket {
-        position: absolute;
-        left: 0; top: 0;
-        width: 100%; height: auto;
-        background-color: white;
-        z-index: 9999;
-    }
-
-    .ticket-box {
-        box-shadow: none;
-        border: 2px solid #000;
-        width: 100%;
-        max-width: 300px; /* Ancho típico de ticket */
-        margin: 0;
-    }
-    
-    /* Ocultamos los botones en el papel */
-    .modal-buttons {
-        display: none;
-    }
+.btn-confirm {
+    flex: 2;
+    background-color: #008000;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
 }

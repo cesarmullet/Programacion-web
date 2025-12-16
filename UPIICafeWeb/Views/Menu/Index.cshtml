@@ -1,0 +1,279 @@
+@model List<UPIICafeWeb.Models.ProductoModel>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Punto de Venta</title>
+    <link rel="stylesheet" href="~/css/stylemenu.css?v=4">
+    
+    <style>
+        .food-img {
+            width: 100%;
+            height: 120px;
+            background-position: center;
+            background-size: cover;
+            border-radius: 5px 5px 0 0;
+            background-color: #eee;
+        }
+
+        /* --- NUEVO ESTILO PARA LA DESCRIPCIÓN --- */
+        .food-desc {
+            font-size: 0.85rem;
+            color: #777;
+            font-style: italic;
+            margin: 5px 0;
+            padding: 0 10px;
+            
+            /* Esto corta el texto si es muy largo para no deformar la tarjeta */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; 
+        }
+    </style>
+</head>
+
+<body class="menu-layout">
+
+    <nav class="sidebar">
+        <button class="category-btn active" onclick="filtrarMenu('comida', this)">
+            <div class="icon-circle">🍔</div>
+            <div class="cat-name">Comida</div>
+        </button>
+        <button class="category-btn" onclick="filtrarMenu('paquetes', this)">
+            <div class="icon-circle">🍱</div>
+            <div class="cat-name">Paquetes</div>
+        </button>
+        <button class="category-btn" onclick="filtrarMenu('bebidas', this)">
+            <div class="icon-circle">🥤</div>
+            <div class="cat-name">Bebidas</div>
+        </button>
+        <button class="category-btn" onclick="filtrarMenu('postres', this)">
+            <div class="icon-circle">🍩</div>
+            <div class="cat-name">Postres</div>
+        </button>
+        
+        <div style="margin-top: auto; padding: 10px;">
+            <a href="/Acceso/Salir" style="color: white; text-decoration: none; display: block; text-align: center; background: #d32f2f; padding: 10px; border-radius: 10px;">Salir 🚪</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        
+        <header class="top-bar">
+            <div style="color: #008000; font-size: 30px; margin-right: 10px;">👤</div>
+            <div class="user-badge" id="nombreUsuario">HOLA, @Context.Session.GetInt32("RolUsuario")</div>
+        </header>
+
+        <div class="products-grid" id="gridProductos">
+            </div>
+
+        <div class="cart-section">
+            <div class="cart-scroll-area">
+                <div class="cart-title" id="cartTitle">CARRITO VACIO</div>
+                <div id="cartItems"></div>
+            </div>
+
+            <div class="pay-panel">
+                <div class="total-label">TOTAL:</div>
+                <div class="total-amount" id="txtTotal">$0.00</div>
+                <button class="btn-pay" onclick="abrirModalPago()">PAGAR</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="modalTicket" class="modal-overlay" style="display:none;">
+        <div class="ticket-box">
+            <h2 style="text-align: center; color: #008000; margin-bottom: 10px;">RESUMEN DE PEDIDO</h2>
+            <div style="text-align: center; font-size: 0.8rem; margin-bottom: 10px;">Ticket de Venta</div>
+            <hr style="border: 1px dashed #ccc;">
+            
+            <div id="ticketContent"></div>
+            
+            <hr style="border: 1px dashed #ccc;">
+            <div class="ticket-total">
+                TOTAL: <span id="ticketTotalDisplay">$0.00</span>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="cerrarModal()">CANCELAR</button>
+                <button class="btn-confirm" onclick="confirmarCompra()">CONFIRMAR E IMPRIMIR</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. CONEXIÓN BASE DE DATOS SQL -> JAVASCRIPT ---
+        const db = [
+            @foreach(var item in Model)
+            {
+                // Mapeo de Categorías
+                string catTexto = "otros";
+                if(item.IdCategoria == 1) catTexto = "comida";
+                if(item.IdCategoria == 2) catTexto = "paquetes";
+                if(item.IdCategoria == 3) catTexto = "bebidas";
+                if(item.IdCategoria == 4) catTexto = "postres";
+
+                <text>
+                { 
+                    id: @item.Id, 
+                    cat: '@catTexto', 
+                    name: '@Html.Raw(item.Nombre)', 
+                    desc: '@Html.Raw(item.Descripcion)',
+                    price: @item.PrecioFinal, 
+                    img: '@item.ImagenUrl' 
+                },
+                </text>
+            }
+        ];
+
+        let carrito = [];
+
+        window.onload = () => {
+            filtrarMenu('comida', document.querySelector('.category-btn'));
+        };
+
+        function filtrarMenu(categoria, btn) {
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+
+            const grid = document.getElementById('gridProductos');
+            grid.innerHTML = '';
+
+            const items = db.filter(i => i.cat === categoria);
+
+            if(items.length === 0) {
+                grid.innerHTML = '<p style="padding:20px; color:#666;">No hay productos en esta categoría.</p>';
+                return;
+            }
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                // Renderizado de la tarjeta con la descripción nueva
+                card.innerHTML = `
+                    <div class="food-img" style="background-image: url('/imagenes/${item.img}');"></div>
+                    
+                    <div class="food-title">${item.name}</div>
+                    
+                    <div class="food-desc">${item.desc}</div>
+                    
+                    <div class="food-price">$${item.price}</div>
+                    <div class="controls">
+                        <button class="btn-pill" onclick="agregar(${item.id})">AGREGAR</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function agregar(id) {
+            const item = db.find(i => i.id === id);
+            carrito.push({...item, uniqueId: Date.now() + Math.random() }); 
+            actualizarCarritoUI();
+        }
+
+        function eliminarItem(uniqueId) {
+            const index = carrito.findIndex(item => item.uniqueId === uniqueId);
+            if (index > -1) {
+                carrito.splice(index, 1);
+            }
+            actualizarCarritoUI();
+        }
+
+        function actualizarCarritoUI() {
+            const title = document.getElementById('cartTitle');
+            const container = document.getElementById('cartItems');
+            const txtTotal = document.getElementById('txtTotal');
+            
+            const total = carrito.reduce((acc, item) => acc + item.price, 0);
+            txtTotal.innerText = `$${total.toFixed(2)}`;
+
+            if(carrito.length > 0) {
+                title.style.display = 'none'; 
+                container.innerHTML = '';
+                
+                carrito.forEach((p) => {
+                    const box = document.createElement('div');
+                    box.className = 'cart-item-box';
+                    box.innerHTML = `
+                        <div style="flex:1; overflow:hidden; text-overflow:ellipsis;">${p.name}</div>
+                        <div style="font-weight:bold;">$${p.price}</div>
+                        <button class="btn-delete" style="margin-left:5px; color:red; font-weight:bold; border:none; background:none; cursor:pointer;" onclick="eliminarItem(${p.uniqueId})">X</button>
+                    `;
+                    container.appendChild(box);
+                });
+                container.scrollTop = container.scrollHeight;
+            } else {
+                title.style.display = 'block';
+                container.innerHTML = '';
+            }
+        }
+
+        // --- FUNCIONES DEL TICKET Y PAGO ---
+
+        function abrirModalPago() {
+            if(carrito.length === 0) {
+                alert("El carrito está vacío.");
+                return;
+            }
+
+            const modal = document.getElementById('modalTicket');
+            const content = document.getElementById('ticketContent');
+            const totalDisplay = document.getElementById('ticketTotalDisplay');
+
+            content.innerHTML = '';
+
+            carrito.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'ticket-row';
+                row.style.display = 'flex'; 
+                row.style.justifyContent = 'space-between';
+                row.innerHTML = `
+                    <span>${item.name}</span>
+                    <span>$${item.price}</span>
+                `;
+                content.appendChild(row);
+            });
+
+            const total = carrito.reduce((acc, item) => acc + item.price, 0);
+            totalDisplay.innerText = `$${total.toFixed(2)}`;
+
+            modal.style.display = 'flex';
+        }
+
+        function cerrarModal() {
+            document.getElementById('modalTicket').style.display = 'none';
+        }
+
+        function confirmarCompra() {
+            // 1. Imprimir Ticket
+            window.print();
+            
+            // 2. ENVIAR A COCINA (LocalStorage)
+            // Esto guarda el pedido para que aparezca en la pantalla del Chef
+            const pedidosExistentes = JSON.parse(localStorage.getItem('pedidosCocina')) || [];
+            
+            const nuevoPedido = {
+                id: Date.now(),
+                hora: new Date().toLocaleTimeString(),
+                items: carrito,
+                total: carrito.reduce((acc, item) => acc + item.price, 0)
+            };
+
+            pedidosExistentes.push(nuevoPedido);
+            localStorage.setItem('pedidosCocina', JSON.stringify(pedidosExistentes));
+
+            // 3. Limpiar y Cerrar
+            carrito = [];
+            actualizarCarritoUI();
+            cerrarModal();
+        }
+    </script>
+</body>
+</html>
