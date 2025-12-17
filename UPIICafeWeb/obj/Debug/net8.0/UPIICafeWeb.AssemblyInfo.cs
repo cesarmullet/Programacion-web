@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UPIICafeWeb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a16fbc09ef2c329c727a87e5e7bb5059238807ac")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e27c40e6b2de57e05be9c73f36c2f04c2d79625d")]
 [assembly: System.Reflection.AssemblyProductAttribute("UPIICafeWeb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UPIICafeWeb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

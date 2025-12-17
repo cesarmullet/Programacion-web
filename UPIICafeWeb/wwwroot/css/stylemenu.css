@@ -20,7 +20,7 @@ body {
    ========================================= */
 .sidebar {
     width: 110px; /* Un poco más ancha para que se vea mejor */
-    background-color: #004d40; /* <-- VERDE OSCURO (Estilo IPN) */
+    background-color: #008000; /* <-- CAMBIADO A VERDE IPN */
     display: flex;
     flex-direction: column;
     padding: 15px 10px;
@@ -50,7 +50,7 @@ body {
 /* ESTADO ACTIVO (AMARILLO) */
 .category-btn.active {
     background-color: #fdd835; /* <-- AMARILLO INTENSO */
-    color: #004d40; /* Letras verdes para contraste */
+    color: #008000; /* <-- CAMBIADO A VERDE IPN */
     font-weight: bold;
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     transform: scale(1.05);
@@ -58,7 +58,7 @@ body {
 
 .category-btn.active .icon-circle {
     background-color: rgba(255,255,255,0.8);
-    color: #004d40;
+    color: #008000; /* <-- CAMBIADO A VERDE IPN */
 }
 
 .icon-circle {
@@ -85,7 +85,7 @@ body {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
- position: relative;
+    position: relative;
     display: grid;
     grid-template-columns: 1fr 380px; /* Carrito un poco más ancho */
     grid-template-rows: 70px 1fr;
@@ -106,7 +106,7 @@ body {
 .brand-title {
     font-size: 1.5rem;
     font-weight: 800;
-    color: #004d40; /* Verde */
+    color: #008000; /* <-- CAMBIADO A VERDE IPN */
 }
 .brand-title span {
     color: #f9a825; /* Amarillo quemado */
@@ -114,7 +114,7 @@ body {
 
 .user-badge {
     background-color: #e8f5e9; /* Verde muy clarito */
-    color: #004d40;
+    color: #008000; /* <-- CAMBIADO A VERDE IPN */
     padding: 8px 20px;
     border-radius: 30px;
     font-weight: bold;
@@ -179,7 +179,7 @@ body {
 
 .food-price {
     font-weight: bold;
-    color: #004d40; /* Precio en verde */
+    color: #008000; /* <-- CAMBIADO A VERDE IPN */
     font-size: 1.3rem;
     margin: 5px 15px;
 }
@@ -192,8 +192,8 @@ body {
 
 .btn-pill {
     background-color: white;
-    color: #004d40;
-    border: 2px solid #004d40;
+    color: #008000; /* <-- CAMBIADO A VERDE IPN */
+    border: 2px solid #008000; /* <-- CAMBIADO A VERDE IPN */
     padding: 10px 20px;
     border-radius: 25px;
     cursor: pointer;
@@ -203,7 +203,7 @@ body {
 }
 
 .btn-pill:hover {
-    background-color: #004d40;
+    background-color: #008000; /* <-- CAMBIADO A VERDE IPN */
     color: white;
 }
 
@@ -253,7 +253,7 @@ body {
 
 /* PANEL DE PAGO (VERDE Y AMARILLO) */
 .pay-panel {
-    background-color: #004d40; /* Verde Fondo */
+    background-color: #008000; /* <-- CAMBIADO A VERDE IPN */
     color: white;
     padding: 25px;
     border-top-left-radius: 20px;
@@ -278,7 +278,7 @@ body {
 .btn-pay {
     width: 100%;
     background-color: #fdd835; /* Botón Amarillo */
-    color: #004d40; /* Texto Verde */
+    color: #008000; /* <-- CAMBIADO A VERDE IPN */
     border: none;
     padding: 16px;
     font-weight: 900;
@@ -337,7 +337,7 @@ body {
     font-size: 1.8rem;
     font-weight: bold;
     margin: 20px 0;
-    color: #004d40;
+    color: #008000; /* <-- CAMBIADO A VERDE IPN */
 }
 
 .modal-buttons {
@@ -363,7 +363,7 @@ body {
 
 .btn-confirm {
     flex: 2;
-    background-color: #004d40;
+    background-color: #008000; /* <-- CAMBIADO A VERDE IPN */
     color: white;
     border: none;
     padding: 12px;

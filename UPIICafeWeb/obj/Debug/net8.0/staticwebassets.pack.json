@@ -25,12 +25,36 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\cesar\\OneDrive\\Escritorio\\Proyecto-web\\UPIICafeWeb\\wwwroot\\imagenes\\dona_choco.PNG",
+      "PackagePath": "staticwebassets\\imagenes\\dona_choco.PNG"
+    },
+    {
       "Id": "C:\\Users\\cesar\\OneDrive\\Escritorio\\Proyecto-web\\UPIICafeWeb\\wwwroot\\imagenes\\hamburguesa.PNG",
       "PackagePath": "staticwebassets\\imagenes\\hamburguesa.PNG"
     },
     {
+      "Id": "C:\\Users\\cesar\\OneDrive\\Escritorio\\Proyecto-web\\UPIICafeWeb\\wwwroot\\imagenes\\malteada_choco.PNG",
+      "PackagePath": "staticwebassets\\imagenes\\malteada_choco.PNG"
+    },
+    {
+      "Id": "C:\\Users\\cesar\\OneDrive\\Escritorio\\Proyecto-web\\UPIICafeWeb\\wwwroot\\imagenes\\paq_hamburguesa.PNG",
+      "PackagePath": "staticwebassets\\imagenes\\paq_hamburguesa.PNG"
+    },
+    {
+      "Id": "C:\\Users\\cesar\\OneDrive\\Escritorio\\Proyecto-web\\UPIICafeWeb\\wwwroot\\imagenes\\paq_tacos_dona.PNG",
+      "PackagePath": "staticwebassets\\imagenes\\paq_tacos_dona.PNG"
+    },
+    {
+      "Id": "C:\\Users\\cesar\\OneDrive\\Escritorio\\Proyecto-web\\UPIICafeWeb\\wwwroot\\imagenes\\pastel_choco.PNG",
+      "PackagePath": "staticwebassets\\imagenes\\pastel_choco.PNG"
+    },
+    {
       "Id": "C:\\Users\\cesar\\OneDrive\\Escritorio\\Proyecto-web\\UPIICafeWeb\\wwwroot\\imagenes\\refresco.PNG",
       "PackagePath": "staticwebassets\\imagenes\\refresco.PNG"
+    },
+    {
+      "Id": "C:\\Users\\cesar\\OneDrive\\Escritorio\\Proyecto-web\\UPIICafeWeb\\wwwroot\\imagenes\\sprite.PNG",
+      "PackagePath": "staticwebassets\\imagenes\\sprite.PNG"
     },
     {
       "Id": "C:\\Users\\cesar\\OneDrive\\Escritorio\\Proyecto-web\\UPIICafeWeb\\wwwroot\\imagenes\\tacos.PNG",

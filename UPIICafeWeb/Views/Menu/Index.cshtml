@@ -14,21 +14,19 @@
     <style>
         .food-img {
             width: 100%;
-            height: 140px; /* Un poco más alto para lucir la comida */
+            height: 140px;
             background-position: center;
             background-size: cover;
             border-radius: 5px 5px 0 0;
             background-color: #f0f0f0;
         }
 
-        /* La clase food-desc ya está estilizada en el CSS también, 
-           pero mantenemos esto por si acaso */
         .food-desc {
             font-size: 0.85rem;
             color: #777;
             font-style: italic;
             margin: 5px 0;
-            padding: 0 15px; /* Padding lateral alineado */
+            padding: 0 15px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis; 
@@ -102,7 +100,9 @@
 
     <div id="modalTicket" class="modal-overlay" style="display:none;">
         <div class="ticket-box">
-            <h2 style="text-align: center; color: #004d40; margin-bottom: 5px;">CONFIRMAR PEDIDO</h2>
+            <h1 id="ticketOrderNum" style="text-align: center; font-size: 2rem; margin: 0; color: #000;">ORDEN #000</h1>
+            
+            <h2 style="text-align: center; color: #004d40; margin-bottom: 5px; font-size: 1.2rem;">CONFIRMAR PEDIDO</h2>
             <div style="text-align: center; font-size: 0.8rem; color:#777; margin-bottom: 15px;">UPIICAFE - Punto de Venta</div>
             <hr style="border: 1px dashed #ccc;">
             
@@ -166,13 +166,13 @@
 
             items.forEach(item => {
                 const card = document.createElement('div');
-             card.className = 'card';
+                card.className = 'card';
                 card.innerHTML = `
-                <div class="food-img" style="background-image: url('/imagenes/${item.img}');"></div>
+                    <div class="food-img" style="background-image: url('/imagenes/${item.img}');"></div>
                     
-                <div class="food-title">${item.name}</div>
-                <div class="food-desc">${item.desc}</div>
-                <div class="food-price">$${item.price}</div>
+                    <div class="food-title">${item.name}</div>
+                    <div class="food-desc">${item.desc}</div>
+                    <div class="food-price">$${item.price}</div>
                     <div class="controls">
                         <button class="btn-pill" onclick="agregar(${item.id})">AGREGAR +</button>
                     </div>
@@ -222,12 +222,22 @@
                 title.style.display = 'block';
                 container.innerHTML = '';
             }
-    }
+        }
+
+        // --- LÓGICA DEL TICKET Y ORDEN ---
+
         function abrirModalPago() {
             if(carrito.length === 0) {
                 alert("El carrito está vacío. Agrega productos primero.");
                 return;
             }
+
+            // 1. Calcular el SIGUIENTE número de orden (solo visual, no lo guardamos todavía)
+            let ultimoNum = parseInt(localStorage.getItem('ultimoNumeroOrden')) || 0;
+            let siguienteNum = ultimoNum + 1;
+
+            // 2. Mostrar en el Ticket
+            document.getElementById('ticketOrderNum').innerText = "ORDEN #" + siguienteNum;
 
             const modal = document.getElementById('modalTicket');
             const content = document.getElementById('ticketContent');
@@ -258,18 +268,34 @@
         }
 
         function confirmarCompra() {
-            window.print(); 
+            // 1. GENERAR NÚMERO DE ORDEN REAL (Ahora sí lo guardamos)
+            let ultimoNum = parseInt(localStorage.getItem('ultimoNumeroOrden')) || 0;
+            let nuevoNumeroOrden = ultimoNum + 1;
+            
+            // Guardamos el nuevo contador para la próxima vez
+            localStorage.setItem('ultimoNumeroOrden', nuevoNumeroOrden);
+
+            // Actualizamos la vista por si acaso
+            document.getElementById('ticketOrderNum').innerText = "ORDEN #" + nuevoNumeroOrden;
+
+            // 2. IMPRIMIR TICKET
+            window.print();
+            
+            // 3. ENVIAR A COCINA (Con el número de orden oficial)
             const pedidosExistentes = JSON.parse(localStorage.getItem('pedidosCocina')) || [];
             
             const nuevoPedido = {
-                id: Date.now(),
+                id: Date.now(), // ID interno (timestamp)
+                numeroOrden: nuevoNumeroOrden, // <--- EL NÚMERO CORTO PARA COCINA
                 hora: new Date().toLocaleTimeString(),
                 items: carrito,
                 total: carrito.reduce((acc, item) => acc + item.price, 0)
             };
 
             pedidosExistentes.push(nuevoPedido);
-        localStorage.setItem('pedidosCocina', JSON.stringify(pedidosExistentes));
+            localStorage.setItem('pedidosCocina', JSON.stringify(pedidosExistentes));
+
+            // 4. Limpiar y Cerrar
             carrito = [];
             actualizarCarritoUI();
             cerrarModal();
